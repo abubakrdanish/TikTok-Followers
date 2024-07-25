@@ -21,3 +21,10 @@ def show_login():
 # Initialize session state if not already done
 if 'logged_in' not in st.session_state:
     st.session_state.logged_in = False
+
+# Check if logged in, if not show login form
+if not st.session_state.logged_in:
+    show_login()
+else:
+    # Add your main app content here
+    st.title("Welcome to the app!")
