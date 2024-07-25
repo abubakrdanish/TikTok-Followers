@@ -2,7 +2,6 @@ import requests
 import csv
 import streamlit as st
 import io
-from login import show_login
 
 def get_user_secuid(username):
     url = "https://tiktok-api23.p.rapidapi.com/api/user/info"
@@ -51,43 +50,35 @@ def create_csv(followers_list):
 
 st.title("TikTok Followers Fetcher")
 
-# Check login status
-if not st.session_state.logged_in:
-    show_login()
+username = st.text_input("Enter TikTok username:")
 
-# Main content
-if st.session_state.logged_in:
-    username = st.text_input("Enter TikTok username:")
-
-    if st.button("Get Followers"):
-        secuid = get_user_secuid(username)
-        if secuid:
-            st.write(f"secUid for {username}: {secuid}")
-            followers_data = get_user_followers(secuid)
-            if followers_data:
-                followers_list = []
-                for user in followers_data:
-                    user_id = user['user'].get('id')
-                    unique_id = user['user'].get('uniqueId')
-                    link = f"https://www.tiktok.com/@{unique_id}"
-                    followers_list.append([user_id, unique_id, link])
-
-                st.write("Followers data:")
-                st.table(followers_list[:50])  # Display only the first 50 followers
-
-                # Create a CSV and provide a download link
-                csv_data = create_csv(followers_list[:50])
-                st.download_button(
-                    label="Download Followers CSV",
-                    data=csv_data,
-                    file_name='followers.csv',
-                    mime='text/csv'
-                )
-
-                st.success("Followers data has been written to 'followers.csv'.")
-            else:
-                st.error("Failed to retrieve followers data.")
+if st.button("Get Followers"):
+    secuid = get_user_secuid(username)
+    if secuid:
+        st.write(f"secUid for {username}: {secuid}")
+        followers_data = get_user_followers(secuid)
+        if followers_data:
+            followers_list = []
+            for user in followers_data:
+                user_id = user['user'].get('id')
+                unique_id = user['user'].get('uniqueId')
+                link = f"https://www.tiktok.com/@{unique_id}"
+                followers_list.append([user_id, unique_id, link])
+            
+            st.write("Followers data:")
+            st.table(followers_list[:50])  # Display only the first 50 followers
+            
+            # Create a CSV and provide a download link
+            csv_data = create_csv(followers_list[:50])
+            st.download_button(
+                label="Download Followers CSV",
+                data=csv_data,
+                file_name='followers.csv',
+                mime='text/csv'
+            )
+            
+            st.success("Followers data has been written to 'followers.csv'.")
         else:
-            st.error("Failed to retrieve secUid.")
-else:
-    st.write("Please log in to access the application.")
+            st.error("Failed to retrieve followers data.")
+    else:
+        st.error("Failed to retrieve secUid.")
