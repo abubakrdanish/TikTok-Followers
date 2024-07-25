@@ -9,7 +9,7 @@ def get_user_secuid(username):
     querystring = {"uniqueId": username}
     
     headers = {
-        "x-rapidapi-key": "e095c79235msh5b6a8ced9205f47p174637jsnb96f106bb797",
+        "x-rapidapi-key": "c7ae035146msh6e02ab7440d2bc3p1940acjsn8f68f8e37816",
         "x-rapidapi-host": "tiktok-api23.p.rapidapi.com"
     }
     
@@ -28,7 +28,7 @@ def get_user_followers(secuid):
     min_cursor = 0
     
     headers = {
-        "x-rapidapi-key": "e095c79235msh5b6a8ced9205f47p174637jsnb96f106bb797",
+        "x-rapidapi-key": "c7ae035146msh6e02ab7440d2bc3p1940acjsn8f68f8e37816",
         "x-rapidapi-host": "tiktok-api23.p.rapidapi.com"
     }
     
